@@ -315,13 +315,13 @@ class OmegaConfigLoader(AbstractConfigLoader):
         """Register the globals resolver"""
         OmegaConf.register_new_resolver(
             "globals",
-            lambda variable, default_value=None: self._get_globals_value(
+            lambda variable, default_value: self._get_globals_value(
                 variable, default_value
             ),
             replace=True,
         )
 
-    def _get_globals_value(self, variable, default_value):
+    def _get_globals_value(self, variable, default_value=None):
         """Return the globals values to the resolver"""
         if variable.startswith("_"):
             raise InterpolationResolutionError(
