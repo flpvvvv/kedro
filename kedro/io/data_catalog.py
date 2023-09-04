@@ -10,7 +10,7 @@ import copy
 import difflib
 import logging
 import re
-from collections import defaultdict
+from collections import defaultdict, UserDict
 from typing import Any, Dict, Iterable
 
 from parse import parse
@@ -98,7 +98,7 @@ def _sub_nonword_chars(data_set_name: str) -> str:
     return re.sub(WORDS_REGEX_PATTERN, "__", data_set_name)
 
 
-class _FrozenDatasets:
+class _FrozenDatasets(UserDict):
     """Helper class to access underlying loaded datasets."""
 
     def __init__(
@@ -120,6 +120,7 @@ class _FrozenDatasets:
                         for dataset_name, dataset in collection.items()
                     }
                 )
+        super().__init__(**self.__dict__)
 
     # Don't allow users to add/change attributes on the fly
     def __setattr__(self, key, value):
